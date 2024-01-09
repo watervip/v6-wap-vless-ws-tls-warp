@@ -4,4 +4,6 @@ v6-wap-vless-ws-tls-warp
 
 wap.ac家的1刀年付hk小鸡搭建vless+ws+tls+warp脚本,debian11测试通过
 
+搭建过程需要你输入域名，连接使用；邮箱，申请ssl证书使用。
+
 apt update && apt install -y curl && bash <(curl -Ls https://raw.githubusercontent.com/U201413497/v6-wap-vless-ws-tls-warp/main/v6+vless+ws+tls+warp.sh)
