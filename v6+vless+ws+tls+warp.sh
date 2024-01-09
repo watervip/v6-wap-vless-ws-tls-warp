@@ -16,8 +16,9 @@ _INSTALL(){
   read domain
   echo -n "Enter your email:"
   read email
-  echo -n "Enter your uuid:"
-  read uuid
+  uuid=$(cat /proc/sys/kernel/random/uuid)
+  echo -n "Enter your path, without /"
+  read path
   cat >/etc/caddy/Caddyfile <<-EOF
 $domain
 {
@@ -103,6 +104,12 @@ EOF
   curl -Ls https://raw.githubusercontent.com/U201413497/v6-wap-vless-ws-tls-warp/main/proxychains4.conf -o proxychains4.conf
   mv proxychains4.conf /etc/proxychains4.conf
   cp /etc/resolv.conf.bak /etc/resolv.conf
+  echo -n "your protocol is vless"
+  echo -n "your port is 443"
+  echo -n "your domain is $domain"
+  echo -n "your path is $path"
+  echo -n "your uuid is $uuid"
+  echo -n "enjoy it!"
 }
 
 _INSTALL
