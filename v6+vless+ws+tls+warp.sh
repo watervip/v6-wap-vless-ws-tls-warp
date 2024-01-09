@@ -113,10 +113,14 @@ touch /etc/systemd/system/caddy.service
   curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg |  gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
   echo "deb [arch=amd64 signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/cloudflare-client.list
   apt update && apt install -y cloudflare-warp
-  warp-cli register 
+  warp-cli register
+  sleep 3
   warp-cli set-mode proxy
+  sleep 3
   warp-cli set-proxy-port 9090
+  sleep 3
   warp-cli connect
+  sleep 3
   warp-cli enable-always-on
   curl -Ls https://raw.githubusercontent.com/U201413497/v6-wap-vless-ws-tls-warp/main/proxychains4.conf -o proxychains4.conf
   mv proxychains4.conf /etc/proxychains4.conf
@@ -132,8 +136,6 @@ touch /etc/systemd/system/caddy.service
   echo -n "your path is $path"
   
   echo -n "your uuid is $uuid"
-  
-  echo -n "enjoy it!"
 
   
 }
