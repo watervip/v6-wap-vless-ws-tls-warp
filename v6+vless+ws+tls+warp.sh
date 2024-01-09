@@ -127,17 +127,7 @@ touch /etc/systemd/system/caddy.service
   cp /etc/resolv.conf.bak /etc/resolv.conf
   service v2ray restart
   systemctl start caddy
-  echo -n "your protocol is vless"
-  
-  echo -n "your port is 443"
-  
-  echo -n "your domain is $domain"
-  
-  echo -n "your path is $path"
-  
-  echo -n "your uuid is $uuid"
-
-  
+  echo -n "your link is vless://$uuid@$domain:443?encryption=none&security=tls&type=ws&path=%2F$path#$domain"
 }
 
 _INSTALL
