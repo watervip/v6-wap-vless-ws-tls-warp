@@ -6,7 +6,7 @@ _INSTALL(){
   apt update && apt install curl wget sudo vim gnupg lsb-release proxychains4 -y
   bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh) --version 4.45.2
   systemctl enable v2ray
-  wget https://github.com/U201413497/v6naiveproxy/releases/download/caddy/caddy
+  wget https://github.com/U201413497/v6-wap-vless-ws-tls-warp/releases/download/caddy/caddy
   mv /root/caddy /usr/bin/ && chmod +x /usr/bin/caddy
   mkdir /etc/caddy
   touch /etc/caddy/Caddyfile
