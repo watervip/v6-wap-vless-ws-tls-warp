@@ -6,12 +6,10 @@ _INSTALL(){
   apt update && apt install curl wget sudo vim gnupg lsb-release proxychains4 -y
   bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh) --version 4.45.2
   systemctl enable v2ray
-  sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
-  curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg --yes
-  curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
-  sudo apt update
-  sudo apt install caddy
-  systemctl enable caddy
+  wget https://github.com/U201413497/v6naiveproxy/releases/download/caddy/caddy
+  mv /root/caddy /usr/bin/ && chmod +x /usr/bin/caddy
+  mkdir /etc/caddy
+  touch /etc/caddy/Caddyfile
   echo -n "Enter your domain:"
   read domain
   echo -n "Enter your email:"
@@ -93,6 +91,25 @@ cat >/usr/local/etc/v2ray/config.json <<-EOF
   }
 }
 EOF
+touch /etc/systemd/system/caddy.service
+  echo "
+  [Unit]
+  Description=Caddy HTTP/2 web server
+  Documentation=https://caddyserver.com/docs
+  After=network-online.target
+  Wants=network-online.target systemd-networkd-wait-online.service
+
+  [Service]
+  ExecStart=/usr/bin/caddy run --environ --config /etc/caddy/Caddyfile
+  ExecReload=/usr/bin/caddy reload --config /etc/caddy/Caddyfile
+  Restart=always
+  RestartPreventExitStatus=23
+  AmbientCapabilities=CAP_NET_BIND_SERVICE
+
+  [Install]
+  WantedBy=multi-user.target" > /etc/systemd/system/caddy.service
+  systemctl daemon-reload
+  systemctl enable caddy.service
   curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg |  gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
   echo "deb [arch=amd64 signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/cloudflare-client.list
   apt update && apt install -y cloudflare-warp
@@ -105,13 +122,20 @@ EOF
   mv proxychains4.conf /etc/proxychains4.conf
   cp /etc/resolv.conf.bak /etc/resolv.conf
   service v2ray restart
-  service caddy restart
+  systemctl start caddy
   echo -n "your protocol is vless"
+  
   echo -n "your port is 443"
+  
   echo -n "your domain is $domain"
+  
   echo -n "your path is $path"
+  
   echo -n "your uuid is $uuid"
+  
   echo -n "enjoy it!"
+
+  
 }
 
 _INSTALL
