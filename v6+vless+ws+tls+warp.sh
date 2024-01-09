@@ -104,6 +104,8 @@ EOF
   curl -Ls https://raw.githubusercontent.com/U201413497/v6-wap-vless-ws-tls-warp/main/proxychains4.conf -o proxychains4.conf
   mv proxychains4.conf /etc/proxychains4.conf
   cp /etc/resolv.conf.bak /etc/resolv.conf
+  service v2ray restart
+  service caddy restart
   echo -n "your protocol is vless"
   echo -n "your port is 443"
   echo -n "your domain is $domain"
